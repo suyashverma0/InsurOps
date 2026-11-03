@@ -20,6 +20,7 @@ class Proj1Data:
             self.mongo_client = MongoDBClient(database_name=DATABASE_NAME)
         except Exception as e:
             raise MyException(e, sys)
+    
 
     def export_collection_as_dataframe(self, collection_name: str, database_name: Optional[str] = None) -> pd.DataFrame:
         """
@@ -46,6 +47,10 @@ class Proj1Data:
 
             # Convert collection data to DataFrame and preprocess
             print("Fetching data from mongoDB")
+            print("Database Name:", self.mongo_client.database.name)
+            print("Collection Name:", collection_name)
+            print("Available Collections:", self.mongo_client.database.list_collection_names())
+            print("Document Count:", collection.count_documents({}))
             df = pd.DataFrame(list(collection.find()))
             print(f"Data fecthed with len: {len(df)}")
             if "id" in df.columns.to_list():
